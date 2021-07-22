@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ch05/inputTypes.html</title>
+</head>
+
+<body>
+	<!-- input type별 예제실습. -->
+	<!-- 체크박스 예제만들기 -->
+	<form>
+		<h3>현재 관심을 가지고 있는 학습주제는 무엇입니까??</h3>
+		<input type="checkbox" name="subject" value="HTML5" checked>HTML5<br>
+		<input type="checkbox" name="subject" value="CSS3" checked>CSS3<br>
+		<input type="checkbox" name="subject" value="Javascript" checked>Javascript<br>
+		<input type="checkbox" name="subject" value="Jquery" checked>Jquery
+		<p></p>
+		<input type="submit" value="제출">
+		<input type="reset" value="다시작성">
+	</form>
+	<!-- 선택항목 만들기 -->
+	<h3>그룹별 선택 항목을 제공합니다.</h3>
+	<form>
+		<label>전공분야를 선택하세요.
+			<select name="major">
+				<optgroup label="computer">
+					<option>software</option>
+					<option>robot</option>
+					<option>system</option>
+				</optgroup>
+				<optgroup label="language">
+					<option>English</option>
+					<option>China</option>
+					<option>Germany</option>
+				</optgroup>
+				<optgroup label="business">
+					<option>Service</option>
+					<option>Education</option>
+					<option>Communication</option>
+				</optgroup>
+			</select>
+			<p></p>
+			<input type="submit" value="선택">
+			<input type="reset" value="다시선택">
+		</label>
+	</form>
+	<!--선택사항 직접입력-->
+	<h3>선택사항을 직접입력하세요.</h3>
+	<form>
+		<label>전공 분야를 입력하세요.</label>
+		<input type="text" list="majorlist" name="major">
+		<datalist id="majorlist">
+			<option value="Software">소프트웨어</option>
+			<option value="Robot">로봇</option>
+			<option value="System">시스템</option>
+			<option value="Service">서비스</option>
+		</datalist>
+		<p></p>
+		<input type="submit" value="완료">
+		<input type="reset" value="다시작성">
+		</label>
+	</form>
+	<!--회원가입창만들기-->
+	<h3>회원가입</h3>
+	<form>
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id" id="id"></td>
+				<td><input type="submit" value="중복확인"></td>
+			</tr>
+			<tr>
+				<td rowspan="2">비밀번호</td>
+				<td><input type="text" name="pw" id="pw"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="pw" id="pw" value="비밀번호 재확인"></td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			<tr>
+				<td rowspan="3">주소</td>
+				<td><input type="text" name="address" id="ddress"></td>
+				<td>
+					<p>-</p>
+				</td>
+				<td><input type="text" name="address" id="address"></td>
+				<td><input type="submit" value="우편번호"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="address" id="address"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="address" id="address"></td>
+			</tr>
+			<tr>
+				<td>휴대전화</td>
+				<td><select name="phone">
+						<option value="1">010</option>
+						<option value="2">011</option>
+					</select></td>
+				<td><input type="text" name="phone" id="phone"></td>
+				<td><input type="text" name="phone" id="phone"></td>
+			</tr>
+			<tr>
+				<td>전화번호</td>
+				<td><select name="tel">
+						<option value="1">02</option>
+						<option value="2">031</option>
+						<option value="3">053</option>
+					</select></td>
+				<td><input type="text" name="tel" id="tel"></td>
+				<td><input type="text" name="tel" id="tel"></td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td><input type="text" name="address" id="address"></td>
+				<td><select name="address">
+						<option value="1">@naver.com</option>
+						<option value="2">@google.com</option>
+						<option value="3">@daum.net</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td>생년월일</td>
+				</select></td>
+				<input type="radio" name="birth" value="">양력
+				<input type="radio" name="birth" value="">음력
+				<p></p>
+				<td><select name="year">
+						<option value="1">2000</option>
+						<option value="2">2001</option>
+						<option value="3">2002</option>
+					</select></td>
+				<p></p>
+				<td><select name="month">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<p></p>
+					</select></td>
+				<td><select name="date">
+						<option value="1">10</option>
+						<option value="2">11</option>
+						<option value="3">12</option>
+						<option value="4">13</option>
+						<option value="5">14</option>
+						<option value="6">15</option>
+						<p></p>
+					</select></td>
+			</tr>
+			<tr>
+				<td>
+
+				<input type="checkbox" name="" value="" style="width: 200px;">이메일을 수신합니다 
+				
+				</td>
+				<td>
+					<input type="checkbox" name="" value="" style="width: 200px;">SMS을 수신합니다 
+				</td>
+				
+			</tr>
+				
+			
+			
+
+
+
+
+		</table>
+	</form>
+
+
+</body>
+
+</html>
