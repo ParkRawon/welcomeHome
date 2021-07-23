@@ -1,0 +1,17 @@
+p {
+    color: slateblue;
+}
+
+h2 {
+    background-color: blueviolet;
+}
+h2#show{
+    color: rgb(255, 235, 235);
+}
+.show{
+    font-size: 20px;
+}
+input[type=submit]{
+    width: 100px;
+
+}

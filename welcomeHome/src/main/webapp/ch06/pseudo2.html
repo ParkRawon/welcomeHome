@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ch06/pseudo.html</title>
+    <style>
+        h4:nth-child(2n+1) {
+            background-color: skyblue;
+        }
+
+        h4:nth-child(2n) {
+            background-color: slateblue;
+        }
+        h4:first-child {
+            color: darkblue;
+            font-size: 30px;
+        }
+        h4:nth-of-type(3) {
+            background-color: olivedrab;
+        }
+        h4:last-of-type {
+            background-color: orange;
+        }
+
+        p:only-of-type{
+            background-color: palegreen;
+            font-size: 20px;
+        }
+        div:empty{
+            background-color: palevioletred;
+            width: 100px;
+            height: 30px;
+        }
+        tr:nth-of-type(2n){
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>금요일1</h4>
+    <h4>금요일2</h4>
+    <h4>금요일3</h4>
+    <h4>금요일4</h4>
+    <h4>금요일5</h4>
+    <h4>금요일6</h4>
+    <h4>금요일7</h4>
+    <h4>금요일8</h4>
+    <h4>금요일9</h4>
+    <h4>금요일10</h4>
+    <h4>금요일11</h4>
+
+    <div>
+        <p>토요일</p>
+        <span>일요일</span>
+    </div>
+    <div></div>
+    
+   
+</body>
+
+</html>
