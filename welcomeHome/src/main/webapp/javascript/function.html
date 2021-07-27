@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>javascript/fuvction.html</title>
+    <!-- <script src="js/function.js"></script> -->
 </head>
+
 <body>
     <input type="number" name="num1" id="num1"> +
     <input type="number" name="num2" id="num2"> =
@@ -13,36 +16,42 @@
     <p />
     <button onclick="cal()">계산하기</button>
 
-    <script>
-        
-        let a = 10;
-        console.log(a);
-
-        function cal() {
-            let num1 = document.getElementById('num1');
-            let num2 = document.getElementById('num2');
-            let result = document.getElementById('result');
-            result.value =sum(Number(num1.value), Number(num2.value));
-            console.log(Number(num1.value) + Number(num2.value));
+    <script> 
+        function newFunc(args, args2) {
+            console.log('newFunc(' + args + ',' + args2 + ')');
+            let ary = [args, args2]
+            // let obj = {
+            //     name: args,
+            //     age: args2,
+            //     showInfo: function () {
+            //         return '이름:' +  this.name + ', 나이: ' + this.age;
+            //     }
+            // };
+            let str = '<li>' + args + ',' + args2 + '</li>';
+            return str;
         }
 
-        console.log('function정의 전: ' +sum(10, 20));
-        
-        let fnc = function(a, b){
-            return a+b;
+        function makeList(arg) {
+            let str ='<li id="id1">Hello</li>';  //node => tag(element)
+            let li = document.createElement('li');  //element 생성
+            li.setAttribute('id','id1');  //attribute node를 추가
+            let text = document.createTextNode(arg);  //textnode를 생성
+            li.appendChild(text);  //<li>Hello</li>
 
+            return li;  //'<li id="id1">Hello</li>'
         }
-        console.log('function정의 전: ' +fnc(10, 20));
+        document.write('<ul>');
+        let result = newFunc('Hong', '20');
+        document.write(result);
+        document.write(newFunc('Kim','12'));
+        document.write('</ul>');
 
-        console.log(fnc(10, 20));
+        let ul = document.getElementsByTagName('ul');
+        ul[0].appendChild(makeList('Hello')); 
+        ul[0].appendChild(makeList('World'));   
 
-        function sum(num1, num2) { //hoisting: function 정의문을 끌어올림.
-            return num1 + num2; 
-        }
-         let result = sum(10, 20);
-         console.log(result);
-         result = sum('Hello', 'World');
-         console.log(result);     
+        // console.log(typeof result, result, result.showInfo());
     </script>
 </body>
+
 </html>
