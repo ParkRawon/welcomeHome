@@ -1,0 +1,35 @@
+#show>div:nth-of-type(2n) {
+    background-color: rgb(175, 187, 255);
+}
+
+.row {
+    border: 1px solid rgb(161, 191, 255);
+    
+}
+
+span {
+    color: rgb(43, 64, 255);
+    padding: 5px;
+}
+
+strong {
+    color: rgb(96, 96, 255);
+    text-align: end;
+    font-size: 14px;
+    padding: 8px 16px;
+    
+}
+
+.pagination button {
+    color: rgb(0, 0, 0);
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.pagination button.active {
+    background-color: rgb(210, 214, 250);
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(210, 214, 250);
+}

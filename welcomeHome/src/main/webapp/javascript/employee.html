@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style></style>
     <title>javascript/employee.html</title>
+    <script src="js/employee.js"></script>
     <script>
         let jsonData = `[{"id":1,"first_name":"Price","last_name":"Edgehill","email":"pedgehill0@ca.gov","gender":"Bigender"},
 {"id":2,"first_name":"Jo-ann","last_name":"Eslinger","email":"jeslinger1@tumblr.com","gender":"Female"},
@@ -16,59 +18,44 @@
 {"id":7,"first_name":"Vyky","last_name":"Giroldo","email":"vgiroldo6@chronoengine.com","gender":"Bigender"},
 {"id":8,"first_name":"Leelah","last_name":"Westwick","email":"lwestwick7@ucsd.edu","gender":"Agender"},
 {"id":9,"first_name":"Maxine","last_name":"Tesoe","email":"mtesoe8@nasa.gov","gender":"Bigender"},
-{"id":10,"first_name":"Noemi","last_name":"Obell","email":"nobell9@guardian.co.uk","gender":"Genderfluid"}]`
+{"id":10,"first_name":"Noemi","last_name":"Obell","email":"nobell9@guardian.co.uk","gender":"Genderfluid"}]`;
 
-        console.log(jsonData);
-        let objData = JSON.parse(jsonData);
-        console.log(objData);
+        console.log(jsonData);  //json 데이터
+        let objData = JSON.parse(jsonData);  //json => object변환
+        console.log(objData);  
 
-    
-        documemt.addEventListener('DOMContentLoaded', function () {
+
+        document.addEventListener('DOMContentLoaded', function () {
             let tbody = document.querySelector('#list > tbody');
-            // let ul = document.createElement('ul');
             for (let i = 0; i < objData.length; i++) {
-                // console.log(objData[i].last_name);
-                // let li = document.createElement('li');
-                // li.onclick = function () {
-                //     window.alert(this.innerHTML);
-                // };
-                // li.addEventListener('mouseover', function () {
-                //     this.style.backgrounColor = 'red';
-                // });
-                // let text = document.createTextNode(objData[i].last_name);
-                // li.appendChild(text);
-                // ul.appendChild(li);
-                let tr = document.createElement('tr');
-                for(let filed in objData[0]) {
-                 let td = document.createElement('td');
-                 let text = document.createTextNode(jsonData[i][filed]);
-                 td.appendChild(text);
-                 tr.appendChild(td);
-                }
+                let newTr = makeRow(objData[i]);
+                tbody.appendChild(newTr);
             }
+
+            document.getElementById('list').setAttribute('border','1');
 
         });
     </script>
 </head>
+
 <body>
-<div id="show"></div>
-<table id='list'>
-    <thead>
-        <tr>
-            <th>사원번호</th> 
-            <th>성</th>
-            <th>이름</th>
-            <th>이메일</th>
-            <th>성별</th>
-            <th>삭제기능</th>
-        </tr>
-    </thead>
-</table>
+    <div id="show">
+        <table id='list'>
+            <thead>
+                <tr>
+                    <th>사원번호</th>
+                    <th>성</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>성별</th>
+                    <th>삭제기능</th>
+                </tr>
+            </thead>
+            <tbody>
 
-
-
-
-
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
