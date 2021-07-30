@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>board/empList.html</title>
+</head>
+
+<body>
+    <!-- <div id='container'>
+        <form action="EmpListServlet.do" method="GET" onsubmit='submitFnc(event)'>
+            <label for="uid">아이디:</label>
+            <input type="text" name="uid" id="uid"><br>
+            <label for="upw">비밀번호: </label>
+            <input type="password" name="upw" id="upw"><br>
+            <input type="submit" value="로그인">
+        </form>
+    </div> -->
+    <script>
+        let div = document.createElement('div');
+        div.id = 'container';
+        
+        let form = document.createElement('form');
+        form.action = '../EmpListServlet.do';
+        form.metod = 'get';
+
+        let label1 = document.createElement('label');
+        label1.id = 'uid';
+        label1.innerHTML = '아이디';
+        
+        let input1 = document.createElement('input');
+        input1.type = 'text'
+        input1.setAttribute('name', 'uid');
+        input1.setAttribute('id', 'uid');
+        
+        let label2 = document.createElement('label');
+        label2.id = 'upw';
+        label2.innerHTML = '비밀번호';
+        
+        let input2 = document.createElement('input');
+        input2.type = 'password'
+        input2.setAttribute('name', 'upw');
+        input2.setAttribute('id', 'upw');
+        
+        let input3 = document.createElement('input');
+        input3.type = 'submit'
+        input3.setAttribute('value', '로그인');
+        
+        form.appendChild(label1);
+        form.appendChild(input1);
+        form.appendChild(label2);
+        form.appendChild(input2);
+        form.appendChild(input3);
+        div.appendChild(form);
+        
+        document.body.appendChild(div);
+
+        // let form = document.querySelector('#container > form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            let url = this.getAttribute('action');
+
+            let xhtp = new XMLHttpRequest();
+            xhtp.open('get', url);
+            xhtp.send();
+            xhtp.onload = function () {
+                let data= JSON.parse(xhtp.responseText);
+                console.log(data);  //data = MOCK_DATA
+            }
+        })
+        </script>
+</body>
+
+</html>

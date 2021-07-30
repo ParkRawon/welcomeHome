@@ -8,51 +8,8 @@
     <title>javascript/ajax.html</title>
     <link rel="stylesheet" href="ajax.css">
     <!-- <script src="js/ajax.js"></script> -->
-    <script>
-        let xhtp = new XMLHttpRequest();
-        xhtp.open('get', 'MOCK_DATA.json');
-        xhtp.send();
-        xhtp.onreadystatechange = function () {
-            if (xhtp.readyState == 4 && xhtp.status == 200) {
-                let data = JSON.parse(xhtp.response);
-                console.log(data);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            ajax('MOCK_DATA.json');
-            let btns = document.querySelectorAll('.pagination > button');
-            for(let i = 0; i<btns.length; i++) {
-                btns[i].className = '';
-            }
-            let page = this.innerHTML;
-            this.className ='active';
-            ajax('MOCK_DATA.json', page);
-
-        })
-
-        function makepage(data) {
-            let divshow = document.querySelector('#show');
-            let cnt = divshow.children.length;
-            for (let i = 0; i < cnt; i++) {
-                divshow.removeChild(divshow.children[0]);
-            }
-            let records = data.getElementsByTagName('record');
-            let statCnt, endCnt;
-            let div = document.createElement('div');
-            div.className = 'row';
-            let span = document.createElement('span');
-            span.innerText = records[i].children[0].innerHTML;
-            let strong = document.childElement('strong');
-            strong.innerText = records[i].children[0].innerHTML;
-
-            div.appendChild(span);
-            div.appendChild(strong);
-
-            document.getElementById('show').appendChild(div);
-        }
-    </script>
+    
 </head>
-
 <body>
     <div class="title"><span>id</span>
         <strong>first_name</strong>
@@ -77,6 +34,65 @@
         <button>16</button>
 
     </div>
-</body>
 
+    <script>
+        function ajax(url, page) {
+            //기존에 있던 데이터를 화면삭제후,,
+            let divShow = document.querySelector('#show');
+            let cnt = divShow.children.length;
+            for (let i = 0; i < cnt; i++) {
+                divShow.removeChild(divShow.children[0]);
+            }
+            let startCnt, endCnt;
+            startCnt = (page - 1) * 10; // 0  0~9, 10~19
+            endCnt = page * 10 - 1; // 9
+
+            let xhtp = new XMLHttpRequest();
+            xhtp.open('get', url); //요청방식
+            xhtp.send();
+            xhtp.onload = function () {
+                let showDiv = document.getElementById('show');
+                let data = JSON.parse(xhtp.responseText);
+                data.filter(function (val, idx) {
+                    if (startCnt <= idx && idx <= endCnt) {
+                        return val;
+                    }
+                }).forEach(function (val, idx) {
+                    //span: id, strong , fn, ln, email
+                    let span = document.createElement('span');
+                    span.innerHTML = val.id;
+                    let strong1 = document.createElement('strong');
+                    strong1.innerHTML = val.first_name;
+                    let strong2 = document.createElement('strong');
+                    strong2.innerHTML = val.last_name;
+                    let strong3 = document.createElement('strong');
+                    strong3.innerHTML = val.email;
+                    let div = document.createElement('div');
+                    div.setAttribute('class', 'row');
+                    //div 하위요소로 spqn,strong1, strong2, strong3가 있어야한다
+                    div.appendChild(span);
+                    div.appendChild(strong1);
+                    div.appendChild(strong2);
+                    div.appendChild(strong3);
+
+                    showDiv.appendChild(div);
+                });
+            } //end of xthp.onload;
+        } //end of ajax();
+        ajax('MOCK_DATA.json', 1); //첫화면에 첫페이지에 보여주도록.
+        
+        let btns = document.querySelectorAll('.pagination > button'); //버튼의 갯수만큼 요소를 갸져온다
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', function () {
+                //클릭이벤트시 button의 클래스를 초가화
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].className = '';
+                }
+                this.className = 'active';
+                let page = this.innerHTML;
+                ajax('MOCK_DATA.json', page);
+            });
+        }
+    </script>
+</body>
 </html>
