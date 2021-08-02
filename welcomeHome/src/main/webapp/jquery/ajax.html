@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/ajax.html</title>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({ //서버에 파일을 읽고 오겠습니다. XMLHttpRequest();   result = js에서의response(Text)
+                url: 'MOCK_DATA.json', //요청하는페이지 무조건 있어야된다
+                data: {
+                    page: 1
+                }, //'MOCK_DATA.json'의 페이지를 넘기겠다
+                method: 'get', //기본값
+                dataType: 'json',
+                success: successCallBack,
+                error: function (reject) {
+                    console.log(reject);
+                }
+            });
+        });
+
+            function successCallBack(result) {
+                let data = result;
+                for (let row of data) { //data의 갯수만큼 반복  id:?? fN:?? lN:??
+                   let div = $('<div/>').attr('class', 'row')  //attr속성 
+                        .html('<span>' + row.id + '</span>&nbsp;&nbsp;&nbsp;<strong>' + row.first_name + '-' +
+                            row.last_name + '</strong> ');
+                            let btn = $('<button/>').html('Del').on('click',delFnc);
+                            $(div).append(btn);
+                            $('#show').append(div); //id:show(부모) 밑에 div(자식)붙임
+                }
+
+            }
+
+            function delFnc(){
+                ($(this).parent().remove());   //parent : 상위요소
+            }
+    </script>
+</head>
+
+<body>
+    <div id="show">
+        <div class="row">
+            <span>id</span>&nbsp;&nbsp;&nbsp;
+            <strong>first_name - last_name</strong>
+        </div>
+    </div>
+</body>
+
+</html>
