@@ -2,104 +2,177 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>board/commentList.html</title>
-	<script>
-		window.onload = function () {
-			loadCommentList();
-		}
-		//목록조회.
-		function loadCommentList() {
-			let xhtp = new XMLHttpRequest();
-			xhtp.open('get', '../CommentServlet?cmd=selectAll')
-			xhtp.send();
-			xhtp.onload = loadCommentResult;
-		}
-		//목록조회 콜백.
-		function loadCommentResult() {
-			let xmlDoc = this.responseXML;
-			let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
-			console.log(code);
+<meta charset="UTF-8">
+<title>board/commentList.html</title>
+<script>
+	window.onload = function() {
+		loadCommentList();
+	}
+	//목록조회.
+	function loadCommentList() {
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', '../CommentServlet?cmd=selectAll')
+		xhtp.send();
+		xhtp.onload = loadCommentResult;
+	}
+	//목록조회 콜백.
+	function loadCommentResult() {
+		let xmlDoc = this.responseXML;
+		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
+		console.log(code);
 
-			if (code == 'success') {
-				let commentList = xmlDoc.getElementsByTagName('row');
-				let listDiv = document.getElementById('commentList');
-				for (let i = 0; i < commentList.length; i++) {
-					let commentDiv = makeCommentView(commentList[i]);
-					listDiv.appendChild(commentDiv);
-				}
-			} else if (code == 'error') {
-				let msg = xmlDoc.getElementsByTagName('data')[0].innerHTML;
-				window.alert(msg)
-			}
-		}
-
-		function makeCommentView(comment) {
-			let div = document.createElement('div');
-			let id = comment.children[0].innerHTML
-			div.setAttribute('id', id);
-			let str = '<strong>' + comment.children[1].innerHTML + '</strong>' +
-				comment.children[2].innerHTML +
-				'<input type="button" value="수정" onclick="viewUpdateForm('+id+')">' +
-				'<input type="button" value="삭제" onclick="confirmDeletion()">';
-			div.innerHTML = str;
-			return div;
-		}
-
-		//글등록
-		function addComment() {
-			let name = document.addForm.name.value;
-			let content = document.addForm.content.value;
-			if (name == "") {
-				alert('이름을 입력하세요!');
-				document.addForm.name.focus();
-				return;
-			}
-			if (content == "") {
-				alert('내용을 입력하세요!');
-				document.addForm.content.focus();
-				return;
-			}
-			let url = '../CommentServlet?cmd=insert&name=' + name + '&content=' + content;
-			let xhtp = new XMLHttpRequest();
-			xhtp.open('get', url)
-			xhtp.send();
-			xhtp.onload = addResult;
-
-		}
-
-		//댓글등록 콜백함수
-		function addResult() {
-			let xmlDoc = this.responseXML;
-			console.log(xmlDoc);
-			let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
-			if (code == 'success') {
-				let listDiv = document.getElementById('commentList');
-				let comment = xmlDoc.getElementsByTagName('data')[0];
-				let commentDiv = makeCommentView(comment);
+		if (code == 'success') {
+			let commentList = xmlDoc.getElementsByTagName('row');
+			let listDiv = document.getElementById('commentList');
+			for (let i = 0; i < commentList.length; i++) {
+				let commentDiv = makeCommentView(commentList[i]);
 				listDiv.appendChild(commentDiv);
-
-			} else if (code == 'error') {
-				let msg = xmlDoc.getElementsByTagName('data')[0].innerHTML;
-				window.alert(msg)
 			}
+		} else if (code == 'error') {
+			let msg = xmlDoc.getElementsByTagName('data')[0].innerHTML;
+			window.alert(msg)
 		}
-		
-		//수정버튼 클릭시.
-		function viewUpdateForm(id){
-			let updateFormDiv = document.getElementById('commentUpdate');
-			let commentDiv = document.getElementById(id);
-			console.log(commentDiv);
-			
-			//let id = document.updateForm.id.value;
-			//let name = document.updateForm.name.value;
-			//let content = document.updateForm.content.value;
-			//let url = '../ComentServlet?cmd=update&id='+id+'name='+name+'content='+content;
-			//let xhtp = new XMLHttpRequest();		
+	}
+
+	function makeCommentView(comment) {  //어떤값을 받아오면 태그값을 만들어 준다.
+		let div = document.createElement('div');
+		let id = comment.children[0].innerHTML
+		div.setAttribute('id', id);
+		div.setAttribute('data-id', comment.children[0].innerHTML);
+		div.setAttribute('data-name', comment.children[1].innerHTML);
+		div.setAttribute('data-content', comment.children[2].innerHTML);
+		let str = '<strong>'+ comment.children[1].innerHTML+ '</strong>'+ comment.children[2].innerHTML
+				+ '<input type="button" value="수정" onclick="viewUpdateForm('+ id+ ')">'
+				+ '<input type="button" value="삭제" onclick="confirmDeletion('+ id+ ')">';
+		div.innerHTML = str;
+		return div;
+	}
+
+	//글등록
+	function addComment() {
+		let name = document.addForm.name.value;
+		let content = document.addForm.content.value;
+		if (name == "") {
+			alert('이름을 입력하세요!');
+			document.addForm.name.focus();
+			return;
 		}
-		
+		if (content == "") {
+			alert('내용을 입력하세요!');
+			document.addForm.content.focus();
+			return;
+		}
+		let url = '../CommentServlet?cmd=insert&name=' + name + '&content='
+				+ content;
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', url)
+		xhtp.send();
+		xhtp.onload = addResult;
+
+	}
+
+	//댓글등록 콜백함수
+	function addResult() {
+		let xmlDoc = this.responseXML;
+		console.log(xmlDoc);
+		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
+		if (code == 'success') {
+			let listDiv = document.getElementById('commentList');
+			let comment = xmlDoc.getElementsByTagName('data')[0];
+			let commentDiv = makeCommentView(comment);
+			listDiv.appendChild(commentDiv);
+
+		} else if (code == 'error') {
+			let msg = xmlDoc.getElementsByTagName('data')[0].innerHTML;
+			window.alert(msg)
+		}
+	}
+
+	//수정버튼 클릭시.
+	function viewUpdateForm(id) {
+		let updateFormDiv = document.getElementById('commentUpdate');
+		let commentDiv = document.getElementById(id);
+		console.log(commentDiv);
+		updateForm.id.value = commentDiv.dataset.id;
+		updateForm.name.value = commentDiv.dataset.name;
+		updateForm.content.value = commentDiv.dataset.content;
+		updateFormDiv.style.display = 'block'; //수정화면 속성
+		commentDiv.after(updateFormDiv);
+		document.getElementById('commentAdd').style.display = 'none'; //등록화면 속성 변경
+	}
+
+	//변경버튼클릭 시.
+	function updateComment() {
+		//1.DB변경, 2.화면변경
+		let id = document.updateForm.id.value;
+		let name = document.updateForm.name.value;
+		let content = document.updateForm.content.value;
+		let url = '../CommentServlet?cmd=update&id=' + id + '&name=' + name
+				+ '&content=' + content;
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', url);
+		xhtp.send();
+		xhtp.onload = updateResult;
+	}
+
+	//댓글수정 콜백함수
+	function updateResult() {
+		console.log(this.responseXML);
+		let xmlDoc = this.responseXML;
+		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
+		if (code == 'success') {
+			let comment = xmlDoc.getElementsByTagName('data')[0];
+			let commentDiv = makeCommentView(comment);
+			let id = commentDiv.getAttribute('id');
+			let oldDiv = document.getElementById(id);
 			
-	</script>
+			//replaceChild: 새로운정보와 원래있던정보를 바꾼다.
+			let parent = document.getElementById('commentList');
+			parent.replaceChild(commentDiv,oldDiv);  //oldDiv를 commentDiv로 바꾼다..?
+			//수정화면 숨기고 등록화면 보이도록		
+			document.getElementById('commentUpdate').style.display = 'none';
+			document.getElementById('commentAdd').style.display = 'block';
+					
+		} else if (code == 'error') {
+			alert('에러발생');
+		}
+	}
+	
+	//취소버튼
+	function cancelUpdate(){
+		document.getElementById('commentUpdate').style.display = 'none';
+		document.getElementById('commentAdd').style.display = 'block';				
+	}
+	
+	//삭제클릭
+	function confirmDeletion(id) {
+		let xhtp = new XMLHttpRequest();
+		let url = '../CommentServlet?cmd=delete&id='+id;
+		xhtp.open('get', url);
+		xhtp.send();
+		xhtp.onload = deleteResult; //콜백함수	
+	}
+	
+	//삭제 콜백함수
+	function deleteResult(){
+		let xmlDoc = this.responseXML;  
+		console.log(xmlDoc);
+		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
+		if(code == 'success') {
+			//document.getElementByID().remove();
+			let id = xmlDoc.getElementsByTagName('data')[0].children[0].innerHTML;
+			console.log(id);
+			document.getElementById(id).remove();
+			window.alert('삭제완료!');
+			
+		} else if(code == 'error') {
+			alert('에러발생');
+		}
+	}
+	
+	
+	
+</script>
 </head>
 
 <body>
@@ -108,17 +181,17 @@
 	<!-- 댓글등록화면 -->
 	<div id='commentAdd'>
 		<form name='addForm' action=''>
-			이름: <input type='text' name='name' size='10'><br>
-			내용: <textarea name='content' rows="3" cols="20"></textarea><br>
+			이름: <input type='text' name='name' size='10'><br> 
+			내용:<textarea name='content' rows="3" cols="20"></textarea>	<br> 
 			<input type='button' value='등록' onclick='addComment()'>
 		</form>
 	</div>
 	<!-- 댓글수정화면 -->
 	<div id='commentUpdate' style="display: none;">
 		<form name='updateForm' action=''>
-			<input type='hidden' name='id'>
-			이름: <input type='text' name='name' size='10'><br>
-			내용:<textarea name='text' rows="3" cols="20"></textarea><br>
+			<input type='hidden' name='id'> 
+			이름: <input type='text'name='name' size='10'><br> 
+			내용: <textarea name='content' rows="3" cols="20"></textarea><br> 
 			<input type='button' value='변경' onclick='updateComment()'>
 			<input type='button' value='취소' onclick='cancelUpdate()'>
 		</form>
