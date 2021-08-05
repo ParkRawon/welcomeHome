@@ -27,6 +27,7 @@
 	//리스트 보여주는 콜백함수
 	function loadCommentResult(resolve) {
 		let aryData = resolve;
+		console.log(resolve);
 		for (let i = 0; i < aryData.length; i++) {
 			let commentDiv = makeCommentView(aryData[i]);
 			$('#commentList').append(commentDiv);
@@ -38,20 +39,21 @@
 		let div = $('<div />').attr('id', comment.id);
 		let strong = $('<strong />').html(comment.name);
 		
+		$(div).attr('id' , comment.id);
+		$(div).attr('data-id', comment.id);
+		$(div).attr('data-name', comment.name);
+		$(div).attr('data-content', comment.content);	
+		
 		let span = $('<span />').html(comment.content)
 		let updateBtn = $('<input onclick="viewUpdateForm('+comment.id+')" />').attr({  //attr(): 속성입력 attr({}): 두가지이상의 속성입력
 			'type' : 'button',
 			'value' : '수정',
-			'data-id' : comment.id,
-			'data-name' : comment.name,
-			'data-content' : comment.content
 		}); 
 		let deleteBtn = $('<input onclick="confirmDeletion('+comment.id+')" />').attr({
 			'type' : 'button',
 			'value' : '삭제'
 		});
-		
-		
+				
 		$(div).append(strong, span, updateBtn, deleteBtn);
 		
 		return div;
@@ -93,6 +95,71 @@
 		document.addForm.name.focus();		
 	}
 	
+	//수정버튼
+	function viewUpdateForm(id) {
+		let updateFormDiv = $('#commentUpdate');
+		let commentDiv = $('#'+id);	
+		console.log(commentDiv);
+		updateForm.id.value = $(commentDiv).attr('data-id')
+		updateForm.name.value = $(commentDiv).attr('data-name')
+		updateForm.content.value = $(commentDiv).attr('data-content')
+		
+		$(updateFormDiv).css('display', 'block');
+		
+		$(updateFormDiv).insertAfter(commentDiv)
+		$('#commentAdd').css('display', 'none');
+		
+	}
+	
+	//변경버튼
+	function updateComment() {
+		$.ajax({
+			url : "../CommentServlet",
+			data : {
+				cmd : 'updateJson',
+				id: $('#commentUpdate input[name="id"]').val(),
+				name: $('#commentUpdate input[name="name"]').val(),
+				content: $('#commentUpdate textarea[name="content"]').val()
+			},
+			success :updateResult, //콜백함수
+			error : function(reject) {
+				console.log(reject);
+			}
+		});
+	}
+	
+	//댓글수정 콜백함수
+	function updateResult(resolve) {		
+		console.log(resolve);
+		
+		let oldDiv = $(commentDiv);
+		let parent = $('#commnetList');
+		$(parent).replaceWith(resolve, oldDiv);
+		
+		$('#commentUpdate').css('display', 'none');
+		$('#commentAdd').css('display', 'block');	
+	}
+	
+	//삭제클릭
+	function confirmDeletion(id) {
+		$.ajax({
+			url : "../CommentServlet",
+			data : {
+				cmd : 'deleteJson',
+ 				id: id
+			},
+			success : deleteResult, //콜백함수
+			error : function(reject) {
+				console.log(reject);
+			}
+		});
+	}
+	
+	//삭제콜백함수
+	function deleteResult(resolve) {
+		console.log(resolve);
+		$('#'+resolve.id).remove()
+	}
 
 </script>
 </head>

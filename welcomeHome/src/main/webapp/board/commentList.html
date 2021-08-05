@@ -120,6 +120,7 @@
 		console.log(this.responseXML);
 		let xmlDoc = this.responseXML;
 		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
+		console.log(code);
 		if (code == 'success') {
 			let comment = xmlDoc.getElementsByTagName('data')[0];
 			let commentDiv = makeCommentView(comment);

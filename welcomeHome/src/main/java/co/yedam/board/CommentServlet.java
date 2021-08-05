@@ -22,7 +22,8 @@ public class CommentServlet extends HttpServlet {
 		super();
 
 	}
-    // 페이지 운영 방식 => html(화면) <--> java(서블릿,DAO) <-->  데이터베이스
+
+	// 페이지 운영 방식 => html(화면) <--> java(서블릿,DAO) <--> 데이터베이스
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -33,17 +34,16 @@ public class CommentServlet extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		if (cmd == null) {
 			out.println(errorXML("cmd null"));
-			
-		} else if(cmd.equals("selectJson")) {     //json데이터
+
+		} else if (cmd.equals("selectJson")) { // json데이터
 			response.setContentType("text/json;charset=utf-8");
 			List<HashMap<String, Object>> list = CommentDAO.getInstance().selectAll();
-			
+
 			Gson gson = new GsonBuilder().create();
 			String json = gson.toJson(list);
 			out.println(json);
-			
-			
-		} else if (cmd.equals("selectAll")) {   // ===전체조회===
+
+		} else if (cmd.equals("selectAll")) { // ===전체조회===
 			try {
 				List<HashMap<String, Object>> list = CommentDAO.getInstance().selectAll();
 				StringBuffer sb = new StringBuffer();
@@ -66,8 +66,7 @@ public class CommentServlet extends HttpServlet {
 				out.println(errorXML(e.getMessage()));
 			}
 
-			
-		} else if (cmd.equals("insert")) {   // ===한건입력===
+		} else if (cmd.equals("insert")) { // ===한건입력===
 			try {
 //				int result = 30/ 0;  오류확인
 				String name = request.getParameter("name");
@@ -76,67 +75,72 @@ public class CommentServlet extends HttpServlet {
 				comment.setName(name);
 				comment.setContent(content);
 				HashMap<String, Object> map = CommentDAO.getInstance().insert(comment);
-				
+
 				out.println(dataXML(map));
 
 			} catch (Exception e) {
 				out.println(errorXML(e.getMessage()));
 			}
-			
-		}else if(cmd.equals("insertJson")) {  //json타입으로 입력
+
+		} else if (cmd.equals("insertJson")) { // json타입으로 입력
 			response.setContentType("text/json;charset=utf-8");
 			String name = request.getParameter("name");
 			String content = request.getParameter("content");
 			Comment comment = new Comment();
 			comment.setName(name);
 			comment.setContent(content);
-			
+
 			HashMap<String, Object> map = CommentDAO.getInstance().insert(comment);
 			Gson gson = new GsonBuilder().create();
 			out.println(gson.toJson(map));
-			
-			
-			
-		} else if (cmd.equals("update")) {     // ===수정===
+
+		} else if (cmd.equals("update")) { // ===수정===
 			String id = request.getParameter("id");
 			String name = request.getParameter("name");
 			String content = request.getParameter("content");
-			
-			Comment comment = new Comment();  
+
+			Comment comment = new Comment();
 			comment.setId(id);
 			comment.setName(name);
 			comment.setContent(content);
-			
+
 			HashMap<String, Object> map = CommentDAO.getInstance().update(comment);
-			
+
 			out.println(dataXML(map));
-		
-			
-		}else if(cmd.equals("updateJson")) {   //Json으로 수정
+
+		} else if (cmd.equals("updateJson")) { // Json으로 수정
 			response.setContentType("text/json;charset=utf-8");
 			String id = request.getParameter("id");
 			String name = request.getParameter("name");
 			String content = request.getParameter("content");
-			
-			Comment comment = new Comment();  
+
+			Comment comment = new Comment();
 			comment.setId(id);
 			comment.setName(name);
 			comment.setContent(content);
-			
-			HashMap<String, Object> map = CommentDAO.getInstance().insert(comment);
+
+			HashMap<String, Object> map = CommentDAO.getInstance().update(comment);
 			Gson gson = new GsonBuilder().create();
 			out.println(gson.toJson(map));
-			
-			
-		}else if(cmd.equals("delete")) { // ===삭제===
+
+		} else if (cmd.equals("delete")) { // ===삭제===
 			String id = request.getParameter("id");
 			HashMap<String, Object> map = CommentDAO.getInstance().delete(id);
-			
+
 			out.println(dataXML(map));
+
+		} else if (cmd.equals("deleteJson")) { //Json으로 삭제
+			response.setContentType("text/json;charset=utf-8");
+			String id = request.getParameter("id");
+
+			HashMap<String, Object> map = CommentDAO.getInstance().delete(id);
+			Gson gson = new GsonBuilder().create();
+			out.println(gson.toJson(map));
 		}
+
 	}// end of doGet();
 
-	private String dataXML(HashMap<String, Object> map) {  //data정보
+	private String dataXML(HashMap<String, Object> map) { // data정보
 		StringBuffer sb = new StringBuffer();
 		sb.append("<result>");
 		sb.append("<code>success</code>");
@@ -151,7 +155,7 @@ public class CommentServlet extends HttpServlet {
 
 	}
 
-	private String errorXML(String msg) {   //에러메세지
+	private String errorXML(String msg) { // 에러메세지
 		StringBuffer sb = new StringBuffer();
 		sb.append("<result>");
 		sb.append("<code>error</code>");
