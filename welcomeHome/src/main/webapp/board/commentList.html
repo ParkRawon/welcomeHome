@@ -76,7 +76,7 @@
 		let xmlDoc = this.responseXML;
 		console.log(xmlDoc);
 		let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
-		if (code == 'success') {
+		if (code == 'success') { 
 			let listDiv = document.getElementById('commentList');
 			let comment = xmlDoc.getElementsByTagName('data')[0];
 			let commentDiv = makeCommentView(comment);

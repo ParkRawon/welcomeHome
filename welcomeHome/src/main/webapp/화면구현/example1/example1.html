@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+	</script>
+</head>
+<script>
+	$(document).ready(function () {
+		loadMemberList();
+	});
+
+	function loadMemberList() {
+		$.ajax({
+			url: 'members.json',
+			method: 'get',
+			dataType: 'json',
+			success: memberList,
+			error: function (reject) {
+				console.log(reject);
+			}
+
+		});
+	}
+
+	function memberList(resolve) {
+		console.log(resolve);
+		for (i = 0; i < resolve.length; i++) {
+			console.log(resolve[i].mem_id);
+			let tr = $('<tr />');
+			let th1 = $('<th />').html(resolve[i].mem_id);
+			let th2 = $('<th />').html(resolve[i].first_name);
+			let th3 = $('<th />').html(resolve[i].last_name);
+			let th4 = $('<th />').html(resolve[i].email);
+			let th5 = $('<th />').html(resolve[i].gender);
+			let th6 = $('<th />').html(resolve[i].address);
+			
+			$(tr).append(th1, th2, th3, th4, th5, th6);
+			
+			$('#list').append(tr);
+			
+		}
+		
+		$('#members')
+
+	}
+</script>
+
+<body>
+	<table id="members">
+		<thead>
+			<tr>
+				<th>mem_id</th>
+				<th>first_name</th>
+				<th>last_name</th>
+				<th>email</th>
+				<th>gender</th>
+				<th>address</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+
+		</tbody>
+	</table>
+</body>
+
+</html>

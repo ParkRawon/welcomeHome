@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+	</script>
+</head>
+<script>
+	window.onload = function () {
+		loadCommentList();
+	}
+
+	function loadCommentList() {
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'employees.xml')
+		xhtp.send();
+		xhtp.onload = EmpList;
+	}
+
+	function EmpList() {
+
+		let xmlDoc = this.responseXML;
+		let records = xmlDoc.getElementsByTagName('record');
+		let list = document.getElementById('list');
+
+		console.log(records);
+		for (let i = 0; i < records.length; i++) {
+			let li = document.createElement('li');
+			li.innerHTML = records[i].children[0].innerHTML+'  '+records[i].children[1].innerHTML+'  '+records[i].children[5].innerHTML;
+			
+			list.appendChild(li)
+		}
+
+	}
+</script>
+
+<body>
+	<ul id="list"></ul>
+</body>
+
+</html>
